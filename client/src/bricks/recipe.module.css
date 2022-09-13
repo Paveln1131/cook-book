@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian&display=swap');
+.recipe h3{
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+.recipe p{
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 12px;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+.recipeImg{
+    width: 290px;
+    height: 125px;
+}
