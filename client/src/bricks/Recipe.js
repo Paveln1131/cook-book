@@ -9,7 +9,7 @@ function Recipe(props){
             <Card.Body>
                 <div className={styles.recipe}>
                     <h3>{props.recipe.name}</h3>
-                    <span className={styles.recipeImgContainer}><img className={styles.recipeImg} src={props.recipe.imgUri} alt="Final product"/></span>
+                    <span><img className={styles.recipeImg} src={props.recipe.imgUri} alt="Final product"/></span>
                     <p>{props.recipe.description}</p>
                 </div>
             </Card.Body>
