@@ -77,7 +77,7 @@ function RecipeList(props){
             </div>
         </Navbar>
         {isSmallDetail ? (
-            <RecipeSmallDetailList recipeList={filteredRecipesList} />
+            <RecipeSmallDetailList recipeList={filteredRecipesList} ingredientsList={props.ingredientsList} />
         ) : isBigDetail ?
             (
             <RecipeBigDetailList recipeList={filteredRecipesList} />
