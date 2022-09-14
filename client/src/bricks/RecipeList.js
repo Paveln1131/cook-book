@@ -22,7 +22,8 @@ function RecipeList(props){
             return (
                 item.name
                     .toLocaleLowerCase()
-                    .includes(searchBy.toLocaleLowerCase())
+                    .includes(searchBy.toLocaleLowerCase())||
+                item.description.toLocaleLowerCase().includes(searchBy.toLocaleLowerCase())
             );
         });
     }, [searchBy]);
