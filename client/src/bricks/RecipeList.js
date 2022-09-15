@@ -70,20 +70,23 @@ function RecipeList(props){
                             }
                         >
                             <Icon size={1} path={isSmallDetail ? mdiSquareSmall : isBigDetail ? mdiCropSquare : mdiViewGridOutline} />{" "}
-                            {isSmallDetail ? "Malí detail" : isBigDetail ? "Velký detail" : "Tabulka"}
+                            {isSmallDetail ? "Malý detail" : isBigDetail ? "Velký detail" : "Tabulka"}
                         </Button>
                     </Form>
                 </div>
             </div>
         </Navbar>
+
+
         {isSmallDetail ? (
             <RecipeSmallDetailList recipeList={filteredRecipesList} ingredientsList={props.ingredientsList} />
         ) : isBigDetail ?
             (
-            <RecipeBigDetailList recipeList={filteredRecipesList} />
+                <RecipeBigDetailList recipeList={filteredRecipesList} />
         ) :
             <RecipeTableList recipeList={filteredRecipesList} />
         }
+
     </div>
 );
 }
