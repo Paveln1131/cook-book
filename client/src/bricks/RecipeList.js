@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 
 import Icon from "@mdi/react";
 import { mdiCropSquare, mdiSquareSmall, mdiMagnify, mdiViewGridOutline} from "@mdi/js";
+import RecipeForm from "./RecipeForm";
 
 function RecipeList(props){
     const [viewType, setViewType] = useState("smallDetail");
@@ -76,6 +77,7 @@ function RecipeList(props){
                 </div>
             </div>
         </Navbar>
+            <RecipeForm />
 
 
         {isSmallDetail ? (
