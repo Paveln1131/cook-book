@@ -14,7 +14,8 @@ function RecipePage(){
         state: "pending",
     });
 
-    useEffect(() => {
+    function loadData(){
+        setRecipeLoadCall({state: "pending"})
         fetch(`http://localhost:3000/recipe/list`, {
             method: "GET",
         }).then(async (response) => {
@@ -25,6 +26,12 @@ function RecipePage(){
                 setRecipeLoadCall({ state: "success", data: responseJson });
             }
         });
+        console.log(recipeLoadCall.state)
+    }
+
+    useEffect(() => {
+
+        loadData()
 
     }, []);
 
@@ -57,7 +64,7 @@ function RecipePage(){
             case "success":
                 return (
                     <div className={styles}>
-                        <RecipeList recipeList={recipeLoadCall.data} ingredientsList={ingredientsLoadCall.data}/>
+                        <RecipeList onRefresh={loadData} recipeList={recipeLoadCall.data} ingredientsList={ingredientsLoadCall.data}/>
                     </div>
                 );
             case "error":

@@ -5,7 +5,8 @@ import {Modal, Form, Row, Col, FormSelect, FormText} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import Ajv from "ajv"
 
-function RecipeForm({addRecipe, recipe}) {
+function RecipeForm(props) {
+    const {addRecipe, recipe,onRefresh} = props
     const [isModalShown, setShow] = useState(false);
     const [recipeCall, setRecipeCall] = useState({state:"pending"});
 
@@ -14,16 +15,18 @@ function RecipeForm({addRecipe, recipe}) {
         setShow(false);
         setFormData(defaultForm);
     }
-    const ajv = new Ajv({ strictTuples: false });
+
 
     const defaultForm = {
         name:"",
         description:"",
-        ingredient:null,
-        count:1,
-        unit:"g"
-    };
+        ingredients:[{
+            id:"c6ea4fb4d330d32b",
+            amount:1,
+            unit:"g"
+        }],
 
+    };
 
 
     const [formData, setFormData] = useState(defaultForm);
@@ -42,9 +45,8 @@ function RecipeForm({addRecipe, recipe}) {
 
     const handleSubmit = async (e) => {
         const form = e.currentTarget;
-        ajv.compile(formData)
 
-        e.preventDefault();
+        //e.preventDefault();
         e.stopPropagation();
 
         if (!form.checkValidity()) {
@@ -67,8 +69,9 @@ function RecipeForm({addRecipe, recipe}) {
         } else {
             setRecipeCall({ state: "success", data });
             handleCloseModal();
+            props.onRefresh()
         }
-        console.log(recipeCall.state)
+
     };
 
 
@@ -154,10 +157,10 @@ function RecipeForm({addRecipe, recipe}) {
                         <Form.Group className="mb-3" as={Col}>
                             <Form.Label>Ingredience</Form.Label>
                             <FormSelect
-                                value={formData.ingredient}
+                                value={formData.ingredients[0].id}
                                 onChange={(e) => setField("ingredient", e.target.value)}
                             >
-                                <option value="Rajče">Rajče</option>
+                                <option value="c6ea4fb4d330d32b">Rajče</option>
                                 <option value="Cibule">Cibule</option>
                                 <option value="Vejce">Vejce</option>
                                 <option value="Hovězí maso">Hovězí maso</option>
@@ -170,7 +173,7 @@ function RecipeForm({addRecipe, recipe}) {
                                 type="number"
                                 min={1}
                                 max={500}
-                                value={formData.count}
+                                value={formData.ingredients[0].amount}
                                 onChange={(e) => setField("count", e.target.value)}
                             />
                             <Form.Control.Feedback type="invalid">
@@ -181,7 +184,7 @@ function RecipeForm({addRecipe, recipe}) {
                             <Form.Label>Jednotka</Form.Label>
                             <Form.Control
                                 type="text"
-                                value={formData.unit}
+                                value={formData.ingredients[0].unit}
                                 onChange={(e) => setField("unit", e.target.value)}
                             />
                         </Form.Group>

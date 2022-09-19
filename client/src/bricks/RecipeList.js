@@ -19,6 +19,7 @@ function RecipeList(props){
     const [searchBy, setSearchBy] = useState("");
 
 
+
     const filteredRecipesList = useMemo(() => {
         return props.recipeList.filter((item) => {
             return (
@@ -78,11 +79,11 @@ function RecipeList(props){
                 </div>
             </div>
         </Navbar>
-            <RecipeForm addRecipe = {"true"}/>
+            <RecipeForm onRefresh={props.onRefresh} addRecipe = {"true"}/>
 
 
             {isSmallDetail ? (
-                <RecipeSmallDetailList recipeList={filteredRecipesList} ingredientsList={props.ingredientsList}/>
+                <RecipeSmallDetailList onRefresh={props.onRefresh}  recipeList={filteredRecipesList} ingredientsList={props.ingredientsList}/>
             ) : isBigDetail ?
                 (
                     <RecipeBigDetailList recipeList={filteredRecipesList}/>

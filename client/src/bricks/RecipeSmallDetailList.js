@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import RecipeForm from "./RecipeForm";
 
 function RecipeSmallDetailList(props) {
+
     return (
         <div className="row g-3">
             {props.recipeList.map((recipe) => {
@@ -18,7 +19,7 @@ function RecipeSmallDetailList(props) {
                                 <div className={styles.recipe}>
                                     <div style={{position:"relative"}}>
                                         <h3>{recipe.name}</h3>
-                                        <RecipeForm addRecipe={"false"} recipe ={recipe}/>
+                                        <RecipeForm onRefresh={props.onRefresh} addRecipe={"false"} recipe ={recipe}/>
                                     </div>
                                     <img className={styles.recipeImg} src={recipe.imgUri} alt="Final product"/>
                                     <p>{recipe.description.slice(0, 30) + "..."}</p>
