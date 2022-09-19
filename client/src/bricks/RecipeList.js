@@ -9,7 +9,7 @@ import Form from "react-bootstrap/Form";
 
 
 import Icon from "@mdi/react";
-import { mdiCropSquare, mdiSquareSmall, mdiMagnify, mdiViewGridOutline} from "@mdi/js";
+import {mdiCropSquare, mdiSquareSmall, mdiMagnify, mdiViewGridOutline, mdiClipboardListOutline} from "@mdi/js";
 import RecipeForm from "./RecipeForm";
 
 function RecipeList(props){
@@ -17,6 +17,7 @@ function RecipeList(props){
     const isSmallDetail = viewType === "smallDetail";
     const isBigDetail = viewType === "bigDetail";
     const [searchBy, setSearchBy] = useState("");
+
 
     const filteredRecipesList = useMemo(() => {
         return props.recipeList.filter((item) => {
@@ -77,19 +78,20 @@ function RecipeList(props){
                 </div>
             </div>
         </Navbar>
-            <RecipeForm />
+            <RecipeForm addRecipe = {"true"}/>
 
 
-        {isSmallDetail ? (
-            <RecipeSmallDetailList recipeList={filteredRecipesList} ingredientsList={props.ingredientsList} />
-        ) : isBigDetail ?
-            (
-                <RecipeBigDetailList recipeList={filteredRecipesList} />
-        ) :
-            <RecipeTableList recipeList={filteredRecipesList} />
-        }
+            {isSmallDetail ? (
+                <RecipeSmallDetailList recipeList={filteredRecipesList} ingredientsList={props.ingredientsList}/>
+            ) : isBigDetail ?
+                (
+                    <RecipeBigDetailList recipeList={filteredRecipesList}/>
+                ) :
+                <RecipeTableList recipeList={filteredRecipesList}/>
+            }
 
     </div>
+
 );
 }
 

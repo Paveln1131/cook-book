@@ -2,6 +2,10 @@ import React from "react";
 import Recipe from "./Recipe";
 import styles from "./recipe.module.css";
 import Card from "react-bootstrap/Card";
+import Icon from "@mdi/react";
+import {mdiPencil} from "@mdi/js";
+import Button from "react-bootstrap/Button";
+import RecipeForm from "./RecipeForm";
 
 function RecipeSmallDetailList(props) {
     return (
@@ -12,8 +16,11 @@ function RecipeSmallDetailList(props) {
                         <Card>
                             <Card.Body>
                                 <div className={styles.recipe}>
-                                    <h3>{recipe.name}</h3>
-                                    <span><img className={styles.recipeImg} src={recipe.imgUri} alt="Final product"/></span>
+                                    <div style={{position:"relative"}}>
+                                        <h3>{recipe.name}</h3>
+                                        <RecipeForm addRecipe={"false"} recipe ={recipe}/>
+                                    </div>
+                                    <img className={styles.recipeImg} src={recipe.imgUri} alt="Final product"/>
                                     <p>{recipe.description.slice(0, 30) + "..."}</p>
                                     <ul>
                                         {props.ingredientsList.map((ingredient) => {
