@@ -79,11 +79,11 @@ function RecipeList(props){
                 </div>
             </div>
         </Navbar>
-            <RecipeForm onRefresh={props.onRefresh} addRecipe = {"true"}/>
+            <RecipeForm onRefresh={props.onRefresh} addRecipe = {true} ingredientsList={props.ingredientsList}/>
 
 
             {isSmallDetail ? (
-                <RecipeSmallDetailList onRefresh={props.onRefresh}  recipeList={filteredRecipesList} ingredientsList={props.ingredientsList}/>
+                <RecipeSmallDetailList onRefresh={props.onRefresh} recipeList={filteredRecipesList} ingredientsList={props.ingredientsList}/>
             ) : isBigDetail ?
                 (
                     <RecipeBigDetailList recipeList={filteredRecipesList}/>

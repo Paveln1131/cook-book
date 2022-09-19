@@ -4,9 +4,9 @@ import Icon from "@mdi/react";
 import {Modal, Form, Row, Col, FormSelect, FormText} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import Ajv from "ajv"
+import ingredientList from "./IngredientList";
 
 function RecipeForm(props) {
-    const {addRecipe, recipe,onRefresh} = props
     const [isModalShown, setShow] = useState(false);
     const [recipeCall, setRecipeCall] = useState({state:"pending"});
 
@@ -16,18 +16,19 @@ function RecipeForm(props) {
         setFormData(defaultForm);
     }
 
-
     const defaultForm = {
+        id:"",
         name:"",
         description:"",
-        ingredients:[{
-            id:"c6ea4fb4d330d32b",
+        ingredients:[
+            {
+            id:"",
             amount:1,
             unit:"g"
-        }],
+            }
+        ]
 
     };
-
 
     const [formData, setFormData] = useState(defaultForm);
 
@@ -38,23 +39,35 @@ function RecipeForm(props) {
             return newData;
         });
     };
-    if(addRecipe === "false"){
-        defaultForm.name = recipe.name
-        defaultForm.description = recipe.description
+    const setIngredient = (name, val) => {
+        return setFormData((formData) => {
+            const b = {...formData.ingredients[0]}
+            b[name] = val;
+
+            return { ...formData, ingredients:[b]};
+        });
+    };
+    if(props.addRecipe === false){
+        defaultForm.id = props.recipe.id
+        defaultForm.name = props.recipe.name
+        defaultForm.description = props.recipe.description
+        defaultForm.ingredients = props.recipe.ingredients
     }
 
+
     const handleSubmit = async (e) => {
+        console.log("submit")
         const form = e.currentTarget;
 
-        //e.preventDefault();
         e.stopPropagation();
+        e.preventDefault();
 
         if (!form.checkValidity()) {
             setValidated(true);
             return;
         }
-
-        const res = await fetch(`http://localhost:3000/recipe/create`, {
+        console.log("valid",formData)
+        const res = await fetch(`http://localhost:3000/recipe/${props.addRecipe ? 'create' : 'update'}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -76,7 +89,7 @@ function RecipeForm(props) {
 
 
     function addButton() {
-        if (addRecipe ==="true"){
+        if (props.addRecipe ===true){
             return (
                 <Button
                     path={mdiClipboardListOutline}
@@ -126,7 +139,7 @@ function RecipeForm(props) {
             <Modal show={isModalShown} onHide={handleCloseModal}>
                 <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}><Form/>
                 <Modal.Header>
-                    <Modal.Title>Vytvořit recept</Modal.Title>
+                    <Modal.Title>{props.addRecipe ? "Vytvořit recept" : "Upravit Recept"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <br/>
@@ -158,12 +171,12 @@ function RecipeForm(props) {
                             <Form.Label>Ingredience</Form.Label>
                             <FormSelect
                                 value={formData.ingredients[0].id}
-                                onChange={(e) => setField("ingredient", e.target.value)}
+                                onChange={(e) => setIngredient("id", e.target.value)}
                             >
-                                <option value="c6ea4fb4d330d32b">Rajče</option>
-                                <option value="Cibule">Cibule</option>
-                                <option value="Vejce">Vejce</option>
-                                <option value="Hovězí maso">Hovězí maso</option>
+                                {props.ingredientsList.map((ingredient)=>{
+                                    return(<option value={ingredient.id}>{ingredient.name}</option>)
+                                })
+                                }
                             </FormSelect>
                         </Form.Group>
 
@@ -174,7 +187,7 @@ function RecipeForm(props) {
                                 min={1}
                                 max={500}
                                 value={formData.ingredients[0].amount}
-                                onChange={(e) => setField("count", e.target.value)}
+                                onChange={(e) => setIngredient("amount",parseInt(e.target.value))}
                             />
                             <Form.Control.Feedback type="invalid">
                                 Zadejte počet v rozmezí 1 - 500
@@ -185,7 +198,7 @@ function RecipeForm(props) {
                             <Form.Control
                                 type="text"
                                 value={formData.ingredients[0].unit}
-                                onChange={(e) => setField("unit", e.target.value)}
+                                onChange={(e) => setIngredient("unit", e.target.value)}
                             />
                         </Form.Group>
                     </Row>
@@ -206,7 +219,7 @@ function RecipeForm(props) {
 
                     >
                         <Icon path={mdiPlus} size={1} />
-                        Přidat recept
+                        {props.addRecipe ? "Přidat recept" : "Upravit Recept"}
                     </Button>
                 </Modal.Footer>
                 </Form>

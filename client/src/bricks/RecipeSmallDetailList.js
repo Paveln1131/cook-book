@@ -19,7 +19,7 @@ function RecipeSmallDetailList(props) {
                                 <div className={styles.recipe}>
                                     <div style={{position:"relative"}}>
                                         <h3>{recipe.name}</h3>
-                                        <RecipeForm onRefresh={props.onRefresh} addRecipe={"false"} recipe ={recipe}/>
+                                        <RecipeForm onRefresh={props.onRefresh} addRecipe={false} recipe ={recipe} ingredientsList={props.ingredientsList}/>
                                     </div>
                                     <img className={styles.recipeImg} src={recipe.imgUri} alt="Final product"/>
                                     <p>{recipe.description.slice(0, 30) + "..."}</p>
