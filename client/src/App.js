@@ -4,11 +4,16 @@ import {Container, Nav, Navbar} from "react-bootstrap";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {useContext} from "react";
+import UserContext from "./UserProvider";
 
 
 function App() {
 
+
+
     let navigate = useNavigate();
+
 
     return (
         <div className="App">

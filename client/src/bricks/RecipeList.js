@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, {useState, useMemo, useContext} from "react";
 import RecipeSmallDetailList from "./RecipeSmallDetailList";
 import RecipeBigDetailList from "./RecipeBigDetailList";
 import RecipeTableList from "./RecipeTableList";
@@ -11,16 +11,18 @@ import Form from "react-bootstrap/Form";
 import Icon from "@mdi/react";
 import {mdiCropSquare, mdiSquareSmall, mdiMagnify, mdiViewGridOutline, mdiClipboardListOutline} from "@mdi/js";
 import RecipeForm from "./RecipeForm";
+import UserContext from "../UserProvider";
 
 function RecipeList(props){
     const [viewType, setViewType] = useState("smallDetail");
     const isSmallDetail = viewType === "smallDetail";
     const isBigDetail = viewType === "bigDetail";
     const [searchBy, setSearchBy] = useState("");
-
+    const {isAuthorized} = useContext(UserContext)
 
 
     const filteredRecipesList = useMemo(() => {
+        if (!props.recipeList) return []
         return props.recipeList.filter((item) => {
             return (
                 item.name
@@ -29,7 +31,7 @@ function RecipeList(props){
                 item.description.toLocaleLowerCase().includes(searchBy.toLocaleLowerCase())
             );
         });
-    }, [searchBy]);
+    }, [searchBy,  props.recipeList]);
 
     function handleSearch(event) {
         event.preventDefault();
@@ -79,8 +81,10 @@ function RecipeList(props){
                 </div>
             </div>
         </Navbar>
-            <RecipeForm onRefresh={props.onRefresh} addRecipe = {true} ingredientsList={props.ingredientsList}/>
-
+            {isAuthorized ? (
+                <RecipeForm onRefresh={props.onRefresh} addRecipe = {true} ingredientsList={props.ingredientsList}/>)
+                : ((<></>))
+                    }
 
             {isSmallDetail ? (
                 <RecipeSmallDetailList onRefresh={props.onRefresh} recipeList={filteredRecipesList} ingredientsList={props.ingredientsList}/>
@@ -92,7 +96,6 @@ function RecipeList(props){
             }
 
     </div>
-
 );
 }
 

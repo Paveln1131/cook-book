@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Recipe from "./Recipe";
 import styles from "./recipe.module.css";
 import Card from "react-bootstrap/Card";
@@ -6,9 +6,11 @@ import Icon from "@mdi/react";
 import {mdiPencil} from "@mdi/js";
 import Button from "react-bootstrap/Button";
 import RecipeForm from "./RecipeForm";
+import userProvider from "../UserProvider";
+import UserContext from "../UserProvider";
 
 function RecipeSmallDetailList(props) {
-
+    const {isAuthorized} = useContext(UserContext)
     return (
         <div className="row g-3">
             {props.recipeList.map((recipe) => {
@@ -19,7 +21,10 @@ function RecipeSmallDetailList(props) {
                                 <div className={styles.recipe}>
                                     <div style={{position:"relative"}}>
                                         <h3>{recipe.name}</h3>
-                                        <RecipeForm onRefresh={props.onRefresh} addRecipe={false} recipe ={recipe} ingredientsList={props.ingredientsList}/>
+                                        {isAuthorized ? (
+                                                <RecipeForm onRefresh={props.onRefresh} addRecipe={false} recipe ={recipe} ingredientsList={props.ingredientsList}/>)
+                                            : (<></>)
+                                        }
                                     </div>
                                     <img className={styles.recipeImg} src={recipe.imgUri} alt="Final product"/>
                                     <p>{recipe.description.slice(0, 30) + "..."}</p>
